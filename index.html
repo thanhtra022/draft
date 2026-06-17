@@ -11,279 +11,290 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0a0a0a;--s1:#141414;--s2:#1e1e1e;--s3:#282828;
-  --b1:#2a2a2a;--b2:#383838;
-  --t1:#f5f5f5;--t2:#888;--t3:#444;
-  --green:#30d158;--green-dim:rgba(48,209,88,.13);
-  --red:#ff453a;--red-dim:rgba(255,69,58,.09);
-  --blue:#0a84ff;--blue-dim:rgba(10,132,255,.13);
-  --r:14px;--rs:10px;
+  --bg:#0a0a0a;--s1:#141414;--s2:#1c1c1c;--s3:#252525;--s4:#2e2e2e;
+  --b1:#2a2a2a;--b2:#363636;
+  --t1:#f2f2f2;--t2:#7a7a7a;--t3:#3d3d3d;
+  --green:#32d74b;--gdim:rgba(50,215,75,.13);
+  --red:#ff453a;--rdim:rgba(255,69,58,.10);
+  --blue:#0a84ff;--bdim:rgba(10,132,255,.13);
+  --amber:#ffd60a;
+  --r:14px;--rs:12px;
 }
 html{background:var(--bg)}
 body{
   background:var(--bg);color:var(--t1);
   font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
   min-height:100svh;max-width:390px;margin:0 auto;
-  padding-bottom:48px;-webkit-font-smoothing:antialiased;
+  padding-bottom:52px;-webkit-font-smoothing:antialiased;
 }
 
 /* HEADER */
-.hd{padding:60px 20px 14px;position:sticky;top:0;background:var(--bg);z-index:20}
-.hd-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px}
-.hd-title{font-size:32px;font-weight:700;letter-spacing:-.8px;line-height:1}
-.hd-today{background:var(--s2);border:none;color:var(--t2);font-size:12px;font-family:inherit;padding:6px 13px;border-radius:20px;cursor:pointer}
-.hd-goal{font-size:13px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
-.hd-goal span{color:var(--t1);font-weight:500}
+.hd{padding:58px 20px 12px;position:sticky;top:0;background:var(--bg);z-index:20;border-bottom:1px solid var(--b1)}
+.hd-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.hd-title{font-size:30px;font-weight:700;letter-spacing:-.7px}
+.hd-now{background:var(--s2);border:none;color:var(--t2);font-size:12px;font-family:inherit;padding:6px 14px;border-radius:20px;cursor:pointer;letter-spacing:.1px}
+.hd-goal{font-size:13px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;display:flex;align-items:center;gap:5px}
+.hd-goal b{color:var(--t1);font-weight:500}
+.hd-goal .edit-ic{font-size:11px;opacity:.5}
 
 /* STATS */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 20px 0}
-.stat{background:var(--s1);border-radius:var(--r);padding:14px 12px;text-align:center}
-.stat-n{font-size:26px;font-weight:700;line-height:1;letter-spacing:-.5px}
-.stat-l{font-size:11px;color:var(--t2);margin-top:4px}
-.c-amber{color:#ffd60a}.c-green{color:var(--green)}.c-red{color:var(--red)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:14px 20px 0}
+.stat{background:var(--s1);border-radius:var(--r);padding:13px 10px;text-align:center}
+.stat-n{font-size:24px;font-weight:700;line-height:1;letter-spacing:-.4px}
+.stat-l{font-size:10px;color:var(--t2);margin-top:4px;letter-spacing:.1px}
+.ca{color:var(--amber)}.cg{color:var(--green)}.cr{color:var(--red)}
 
 /* MONTH NAV */
-.mnav{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 10px}
-.mnav-label{font-size:16px;font-weight:600;letter-spacing:-.2px}
-.mnav-btns{display:flex;gap:6px}
-.mnav-btn{background:var(--s2);border:none;color:var(--t1);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+.mnav{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px}
+.mnav-l{font-size:15px;font-weight:600;letter-spacing:-.2px}
+.mnav-r{display:flex;gap:6px}
+.nb{background:var(--s2);border:none;color:var(--t1);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.nb:disabled{opacity:.25;cursor:default}
 
 /* CALENDAR */
-.cal{padding:0 14px}
-.wdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
-.wday{text-align:center;font-size:11px;color:var(--t3);font-weight:500;padding:3px 0}
-.wday:first-child{color:var(--red);opacity:.6}
-.wday:last-child{color:var(--blue);opacity:.6}
+.cal{padding:0 12px}
+.wdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:3px}
+.wd{text-align:center;font-size:10px;color:var(--t3);font-weight:500;padding:3px 0}
+.wd:first-child{color:rgba(255,69,58,.5)}
+.wd:last-child{color:rgba(10,132,255,.5)}
 .dgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
 
 .dc{
-  aspect-ratio:1;border-radius:var(--rs);
+  aspect-ratio:1;border-radius:9px;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  cursor:pointer;transition:transform .1s;position:relative;
+  cursor:pointer;transition:transform .1s;user-select:none;
 }
-.dc:active{transform:scale(.86)}
-.dc.empty{cursor:default;pointer-events:none}
-.dc.future{cursor:default;pointer-events:none}
+.dc:active{transform:scale(.84)}
+.dc.empty,.dc.before,.dc.future{cursor:default;pointer-events:none}
 
-.dn{font-size:14px;font-weight:500;line-height:1}
-.di{font-size:10px;margin-top:2px;font-weight:600;line-height:1}
+.dn{font-size:13px;font-weight:500;line-height:1}
+.di{font-size:9px;margin-top:2px;font-weight:700;line-height:1}
 
-.dc.done{background:var(--green-dim)}
-.dc.done .dn{color:var(--green)}
-.dc.done .di{color:var(--green)}
+.dc.done{background:var(--gdim)}
+.dc.done .dn,.dc.done .di{color:var(--green)}
+.dc.missed{background:var(--rdim)}
+.dc.missed .dn,.dc.missed .di{color:var(--red)}
+.dc.future .dn,.dc.before .dn{color:var(--t3)}
 
-.dc.missed{background:var(--red-dim)}
-.dc.missed .dn{color:var(--red)}
-.dc.missed .di{color:var(--red)}
-
-.dc.future .dn{color:var(--t3)}
-.dc.future .di{color:var(--t3)}
-
-.dc.today{background:var(--blue-dim);box-shadow:0 0 0 1.5px var(--blue)}
+.dc.today{box-shadow:0 0 0 1.5px var(--blue);background:var(--bdim)}
 .dc.today .dn{color:var(--blue)}
-.dc.today.done{background:var(--green-dim);box-shadow:0 0 0 1.5px var(--green)}
+.dc.today.done{box-shadow:0 0 0 1.5px var(--green);background:var(--gdim)}
 .dc.today.done .dn{color:var(--green)}
-.dc.today.missed{background:var(--red-dim);box-shadow:0 0 0 1.5px var(--red)}
+.dc.today.missed{box-shadow:0 0 0 1.5px var(--red);background:var(--rdim)}
 .dc.today.missed .dn{color:var(--red)}
 
 /* TODAY CARD */
-.tcard{margin:16px 20px 0;background:var(--s1);border-radius:18px;overflow:hidden}
-.tcard-top{padding:18px 20px 14px;border-bottom:1px solid var(--b1)}
-.tcard-date{font-size:12px;color:var(--t2);margin-bottom:6px;letter-spacing:.2px}
-.tcard-status{font-size:17px;font-weight:600;line-height:1.3}
+.tcard{margin:14px 20px 0;background:var(--s1);border-radius:18px;overflow:hidden}
+.tcard-info{padding:16px 18px 13px;border-bottom:1px solid var(--b1)}
+.tcard-date{font-size:11px;color:var(--t2);margin-bottom:5px;letter-spacing:.2px}
+.tcard-status{font-size:16px;font-weight:600}
 .tcard-btn{
-  width:100%;padding:17px 20px;background:none;border:none;
-  font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;
+  width:100%;padding:16px 18px;background:none;border:none;
+  font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;
   display:flex;align-items:center;justify-content:center;gap:8px;
-  transition:background .15s;letter-spacing:-.1px;
+  transition:background .12s;
 }
 .tcard-btn:active{background:var(--s2)}
-.tcard-btn.done-btn{color:var(--green)}
-.tcard-btn.undo-btn{color:var(--t2)}
-.btn-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
-.done-btn .btn-icon{background:var(--green-dim);color:var(--green)}
-.undo-btn .btn-icon{background:var(--s3);color:var(--t2)}
+.tb-done{color:var(--green)}
+.tb-undo{color:var(--t2)}
+.bic{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+.tb-done .bic{background:var(--gdim);color:var(--green)}
+.tb-undo .bic{background:var(--s3);color:var(--t2)}
 
 /* HINT */
-.hint{text-align:center;font-size:11px;color:var(--t3);margin-top:10px;padding:0 20px}
+.hint{text-align:center;font-size:11px;color:var(--t3);margin-top:10px}
 
 /* LEGEND */
-.footer{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;padding:0 20px}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3)}
-.ldot{width:7px;height:7px;border-radius:50%}
+.legend{display:flex;justify-content:center;gap:14px;margin-top:10px}
+.li{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--t3)}
+.ld{width:6px;height:6px;border-radius:50%}
 
-/* POPUP (ngày cũ) */
-.popup-overlay{
-  position:fixed;inset:0;z-index:50;
-  background:rgba(0,0,0,.55);
+/* UPDATE BANNER */
+.update-bar{
+  position:fixed;top:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:390px;z-index:999;
+  background:var(--blue);color:#fff;
+  padding:14px 20px;display:flex;align-items:center;justify-content:space-between;
+  font-size:13px;font-weight:500;
+  animation:slideDown .3s ease;
+}
+@keyframes slideDown{0%{transform:translateX(-50%) translateY(-100%)}100%{transform:translateX(-50%) translateY(0)}}
+.update-bar button{background:rgba(255,255,255,.2);border:none;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+
+/* POPUP */
+.pop-wrap{
+  position:fixed;inset:0;z-index:80;
+  background:rgba(0,0,0,.6);
   display:flex;align-items:center;justify-content:center;
-  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
 }
-.popup{
+.pop{
   background:var(--s1);border-radius:20px;
-  padding:24px 20px;width:calc(100% - 48px);max-width:320px;
-  animation:popIn .18s ease;
+  padding:22px 18px;width:calc(100% - 48px);max-width:300px;
+  animation:popIn .17s ease;
 }
-@keyframes popIn{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
-.popup-date{font-size:13px;color:var(--t2);margin-bottom:6px}
-.popup-title{font-size:18px;font-weight:700;margin-bottom:20px;letter-spacing:-.3px}
-.popup-btns{display:flex;flex-direction:column;gap:8px}
-.popup-btn{
-  width:100%;padding:14px;border:none;border-radius:var(--rs);
-  font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;
-  transition:opacity .15s;
-}
-.popup-btn:active{opacity:.8}
-.popup-btn.p-done{background:var(--green-dim);color:var(--green)}
-.popup-btn.p-missed{background:var(--red-dim);color:var(--red)}
-.popup-btn.p-cancel{background:var(--s3);color:var(--t2);margin-top:4px}
+@keyframes popIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+.pop-date{font-size:12px;color:var(--t2);margin-bottom:5px}
+.pop-cur{font-size:16px;font-weight:700;margin-bottom:18px;letter-spacing:-.2px}
+.pop-btns{display:flex;flex-direction:column;gap:7px}
+.pb{width:100%;padding:13px;border:none;border-radius:var(--rs);font-size:14px;font-weight:600;font-family:inherit;cursor:pointer}
+.pb:active{opacity:.8}
+.pb-done{background:var(--gdim);color:var(--green)}
+.pb-miss{background:var(--rdim);color:var(--red)}
+.pb-cancel{background:var(--s3);color:var(--t2);margin-top:3px}
 
 /* SETUP SHEET */
-.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.sheet{background:var(--s1);width:100%;border-radius:24px 24px 0 0;padding:0 20px 52px;animation:slideUp .22s ease}
-@keyframes slideUp{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
-.sheet-handle{width:32px;height:4px;background:var(--b2);border-radius:2px;margin:12px auto 24px}
-.sheet-title{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:6px}
-.sheet-sub{font-size:14px;color:var(--t2);margin-bottom:22px;line-height:1.5}
-.sheet-input{
-  width:100%;background:var(--s2);border:1.5px solid var(--b2);color:var(--t1);
-  font-size:16px;padding:15px 16px;border-radius:var(--rs);font-family:inherit;
-  outline:none;margin-bottom:14px;transition:border-color .15s;
+.sh-wrap{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.65);display:flex;align-items:flex-end;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sh{background:var(--s1);width:100%;border-radius:24px 24px 0 0;padding:0 20px 50px;animation:up .22s ease}
+@keyframes up{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
+.sh-bar{width:32px;height:4px;background:var(--b2);border-radius:2px;margin:11px auto 22px}
+.sh-title{font-size:21px;font-weight:700;letter-spacing:-.3px;margin-bottom:5px}
+.sh-sub{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.5}
+.sh-inp{
+  width:100%;background:var(--s2);border:1.5px solid var(--b2);
+  color:var(--t1);font-size:16px;padding:14px 15px;
+  border-radius:var(--rs);font-family:inherit;outline:none;
+  margin-bottom:12px;transition:border-color .15s;
 }
-.sheet-input::placeholder{color:var(--t3)}
-.sheet-input:focus{border-color:var(--blue)}
-.sheet-save{width:100%;padding:17px;background:var(--blue);color:#fff;border:none;border-radius:var(--rs);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer}
-.sheet-save:active{opacity:.85}
+.sh-inp::placeholder{color:var(--t3)}
+.sh-inp:focus{border-color:var(--blue)}
+.sh-save{width:100%;padding:16px;background:var(--blue);color:#fff;border:none;border-radius:var(--rs);font-size:15px;font-weight:600;font-family:inherit;cursor:pointer}
+.sh-save:active{opacity:.85}
 </style>
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="hd">
   <div class="hd-row">
     <div class="hd-title">Lịch</div>
-    <button class="hd-today" onclick="goToday()">Hôm nay</button>
+    <button class="hd-now" onclick="goToday()">Hôm nay</button>
   </div>
-  <div class="hd-goal" id="goalDisplay" onclick="openSetup()">Nhấn để đặt mục tiêu</div>
+  <div class="hd-goal" id="goalDisplay" onclick="openSetup()">
+    <span>Nhấn để đặt mục tiêu</span>
+  </div>
 </div>
 
+<!-- STATS -->
 <div class="stats">
-  <div class="stat"><div class="stat-n c-amber" id="sStreak">0</div><div class="stat-l">🔥 Chuỗi ngày</div></div>
-  <div class="stat"><div class="stat-n c-green" id="sDone">0</div><div class="stat-l">Hoàn thành</div></div>
-  <div class="stat"><div class="stat-n c-red" id="sMiss">0</div><div class="stat-l">Bỏ lỡ</div></div>
+  <div class="stat"><div class="stat-n ca" id="sStreak">0</div><div class="stat-l">🔥 Chuỗi ngày</div></div>
+  <div class="stat"><div class="stat-n cg" id="sDone">0</div><div class="stat-l">Hoàn thành</div></div>
+  <div class="stat"><div class="stat-n cr" id="sMiss">0</div><div class="stat-l">Bỏ lỡ</div></div>
 </div>
 
+<!-- MONTH NAV -->
 <div class="mnav">
-  <span class="mnav-label" id="mLabel"></span>
-  <div class="mnav-btns">
-    <button class="mnav-btn" onclick="prevMonth()">‹</button>
-    <button class="mnav-btn" onclick="nextMonth()">›</button>
+  <span class="mnav-l" id="mLabel"></span>
+  <div class="mnav-r">
+    <button class="nb" id="prevBtn" onclick="prevMonth()">‹</button>
+    <button class="nb" id="nextBtn" onclick="nextMonth()">›</button>
   </div>
 </div>
 
+<!-- CALENDAR -->
 <div class="cal">
   <div class="wdays">
-    <div class="wday">CN</div><div class="wday">T2</div><div class="wday">T3</div>
-    <div class="wday">T4</div><div class="wday">T5</div><div class="wday">T6</div>
-    <div class="wday">T7</div>
+    <div class="wd">CN</div><div class="wd">T2</div><div class="wd">T3</div>
+    <div class="wd">T4</div><div class="wd">T5</div><div class="wd">T6</div>
+    <div class="wd">T7</div>
   </div>
   <div class="dgrid" id="dgrid"></div>
 </div>
 
-<div class="hint">Nhấn vào ngày bất kỳ để chỉnh ✓ / ✗</div>
+<div class="hint">Nhấn vào ngày để chỉnh trạng thái</div>
 
-<div class="footer">
-  <div class="legend-item"><div class="ldot" style="background:var(--green)"></div>Hoàn thành</div>
-  <div class="legend-item"><div class="ldot" style="background:var(--red)"></div>Bỏ lỡ</div>
-  <div class="legend-item"><div class="ldot" style="background:var(--blue);box-shadow:0 0 0 1px var(--blue)"></div>Hôm nay</div>
+<div class="legend">
+  <div class="li"><div class="ld" style="background:var(--green)"></div>Hoàn thành</div>
+  <div class="li"><div class="ld" style="background:var(--red)"></div>Bỏ lỡ</div>
+  <div class="li"><div class="ld" style="background:var(--blue);box-shadow:0 0 0 1px var(--blue)"></div>Hôm nay</div>
 </div>
 
+<!-- TODAY CARD -->
 <div class="tcard">
-  <div class="tcard-top">
+  <div class="tcard-info">
     <div class="tcard-date" id="tDate"></div>
     <div class="tcard-status" id="tStatus"></div>
   </div>
-  <button class="tcard-btn done-btn" id="tBtn" onclick="toggleToday()">
-    <div class="btn-icon">✓</div>
-    <span id="tBtnLabel">Đánh dấu hoàn thành</span>
+  <button class="tcard-btn tb-done" id="tBtn" onclick="toggleToday()">
+    <div class="bic">✓</div>
+    <span id="tBtnTxt">Đánh dấu hoàn thành</span>
   </button>
 </div>
 
 <!-- POPUP chỉnh ngày cũ -->
-<div class="popup-overlay" id="popupOverlay" style="display:none" onclick="closePopup(event)">
-  <div class="popup">
-    <div class="popup-date" id="popupDate"></div>
-    <div class="popup-title" id="popupTitle">Ngày này thế nào?</div>
-    <div class="popup-btns">
-      <button class="popup-btn p-done" onclick="setDay('done')">✓ Hoàn thành</button>
-      <button class="popup-btn p-missed" onclick="setDay('missed')">✗ Bỏ lỡ</button>
-      <button class="popup-btn p-cancel" onclick="closePopup()">Huỷ</button>
+<div class="pop-wrap" id="popWrap" style="display:none" onclick="closePop(event)">
+  <div class="pop">
+    <div class="pop-date" id="popDate"></div>
+    <div class="pop-cur" id="popCur"></div>
+    <div class="pop-btns">
+      <button class="pb pb-done" onclick="setDay('done')">✓ Hoàn thành</button>
+      <button class="pb pb-miss" onclick="setDay('missed')">✗ Bỏ lỡ</button>
+      <button class="pb pb-cancel" onclick="closePop()">Huỷ</button>
     </div>
   </div>
 </div>
 
 <!-- SETUP SHEET -->
-<div class="overlay" id="setupOverlay" style="display:none" onclick="overlayTap(event)">
-  <div class="sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">Mục tiêu của bạn</div>
-    <div class="sheet-sub">Bạn muốn theo dõi điều gì mỗi ngày?</div>
-    <input class="sheet-input" id="gInput" type="text" placeholder="Ví dụ: Tập thể dục 30 phút" maxlength="60" onkeydown="if(event.key==='Enter')saveGoal()">
-    <button class="sheet-save" onclick="saveGoal()">Lưu mục tiêu</button>
+<div class="sh-wrap" id="shWrap" style="display:none" onclick="shTap(event)">
+  <div class="sh">
+    <div class="sh-bar"></div>
+    <div class="sh-title">Mục tiêu của bạn</div>
+    <div class="sh-sub">Bạn muốn theo dõi điều gì mỗi ngày?</div>
+    <input class="sh-inp" id="gInp" type="text" placeholder="Ví dụ: Tập thể dục 30 phút" maxlength="60" onkeydown="if(event.key==='Enter')saveGoal()">
+    <button class="sh-save" onclick="saveGoal()">Lưu mục tiêu</button>
   </div>
 </div>
 
 <script>
-// ── HELPERS ──
+// ── UTILS ──
 const pad = n => String(n).padStart(2,'0');
 const dk = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
 const todayKey = () => { const n=new Date(); return dk(n.getFullYear(),n.getMonth(),n.getDate()); };
+const getToday = () => { const t=new Date(); t.setHours(0,0,0,0); return t; };
+const isPast = (y,m,d) => new Date(y,m,d) < getToday();
+const isToday = (y,m,d) => { const t=new Date(); return t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===d; };
+const isFuture = (y,m,d) => new Date(y,m,d) > getToday();
 
-function getToday(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
-function isPast(y,m,d){ return new Date(y,m,d) < getToday(); }
-function isToday(y,m,d){ const t=new Date(); return t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===d; }
-function isFuture(y,m,d){ return new Date(y,m,d) > getToday(); }
+const WD=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+const MN=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+const MS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6','tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
 
 // ── DATA ──
-let D = JSON.parse(localStorage.getItem('gd3')||'{}');
+let D = JSON.parse(localStorage.getItem('mt_v4')||'{}');
 if(!D.days) D.days={};
 if(!D.goal) D.goal='';
-if(!D.startDate) D.startDate = todayKey(); // track when user started
+if(!D.startDate) D.startDate = todayKey();
 
 let vy=new Date().getFullYear(), vm=new Date().getMonth();
-let popupKey = null; // key đang chọn trong popup
+let popKey=null;
 
-function save(){ localStorage.setItem('gd3',JSON.stringify(D)); }
+function save(){ localStorage.setItem('mt_v4',JSON.stringify(D)); }
 
-// ── AUTO-MISS: chỉ từ ngày bắt đầu ──
+// ── AUTO-MISS: chỉ từ ngày bắt đầu, không đánh ngày tương lai ──
 function autoMiss(){
-  const t = getToday();
-  const start = D.startDate ? new Date(D.startDate) : t;
-  start.setHours(0,0,0,0);
-
-  for(let i=1; i<=730; i++){
-    const d = new Date(t); d.setDate(d.getDate()-i);
-    if(d < start) break; // không đánh dấu trước ngày bắt đầu
-    const k = dk(d.getFullYear(), d.getMonth(), d.getDate());
+  const t=getToday();
+  const start=new Date(D.startDate); start.setHours(0,0,0,0);
+  for(let i=1;i<=730;i++){
+    const d=new Date(t); d.setDate(d.getDate()-i);
+    if(d<start) break;
+    const k=dk(d.getFullYear(),d.getMonth(),d.getDate());
     if(!D.days[k]) D.days[k]='missed';
   }
   save();
 }
 
 // ── CALENDAR ──
-const MN=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
-          'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
-const DN=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
-const MNS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6',
-           'tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
-
 function renderCal(){
+  const now=new Date();
   document.getElementById('mLabel').textContent=`${MN[vm]} ${vy}`;
-  const g=document.getElementById('dgrid');
-  g.innerHTML='';
+
+  // disable next nếu đang ở tháng hiện tại
+  document.getElementById('nextBtn').disabled = (vy===now.getFullYear()&&vm===now.getMonth());
+
+  const g=document.getElementById('dgrid'); g.innerHTML='';
   const first=new Date(vy,vm,1).getDay();
   const dim=new Date(vy,vm+1,0).getDate();
-  const start = D.startDate ? new Date(D.startDate) : getToday();
-  start.setHours(0,0,0,0);
+  const start=new Date(D.startDate); start.setHours(0,0,0,0);
 
   for(let i=0;i<first;i++){
     const e=document.createElement('div'); e.className='dc empty'; g.appendChild(e);
@@ -295,29 +306,24 @@ function renderCal(){
     const st=D.days[k];
     const tod=isToday(vy,vm,d);
     const past=isPast(vy,vm,d);
-    const future=isFuture(vy,vm,d);
-    const beforeStart = new Date(vy,vm,d) < start;
+    const fut=isFuture(vy,vm,d);
+    const before=new Date(vy,vm,d)<start;
 
     if(tod) c.classList.add('today');
     if(st==='done') c.classList.add('done');
     else if(st==='missed') c.classList.add('missed');
-    if(future||beforeStart) c.classList.add('future');
+    if(fut) c.classList.add('future');
+    if(before) c.classList.add('before');
 
     const dn=document.createElement('div'); dn.className='dn'; dn.textContent=d;
     const di=document.createElement('div'); di.className='di';
     if(st==='done') di.textContent='✓';
     else if(st==='missed') di.textContent='✗';
-    else if(future||beforeStart) di.textContent='';
-    else if(tod) di.textContent='';
 
     c.appendChild(dn); c.appendChild(di);
 
-    // click logic
-    if(tod){
-      c.onclick = toggleToday;
-    } else if(past && !beforeStart){
-      c.onclick = () => openPopup(vy, vm, d);
-    }
+    if(tod) c.onclick=toggleToday;
+    else if(past&&!before) c.onclick=()=>openPop(vy,vm,d);
 
     g.appendChild(c);
   }
@@ -326,25 +332,19 @@ function renderCal(){
 // ── TODAY CARD ──
 function renderCard(){
   const n=new Date();
-  document.getElementById('tDate').textContent=
-    `${DN[n.getDay()]}, ${n.getDate()} ${MNS[n.getMonth()]} ${n.getFullYear()}`;
-
+  document.getElementById('tDate').textContent=`${WD[n.getDay()]}, ${n.getDate()} ${MS[n.getMonth()]} ${n.getFullYear()}`;
   const st=D.days[todayKey()];
   const btn=document.getElementById('tBtn');
-  const lbl=document.getElementById('tBtnLabel');
-  const icon=btn.querySelector('.btn-icon');
+  const txt=document.getElementById('tBtnTxt');
+  const ic=btn.querySelector('.bic');
   const status=document.getElementById('tStatus');
 
   if(st==='done'){
     status.textContent='✅ Hôm nay đã hoàn thành!';
-    btn.className='tcard-btn undo-btn';
-    icon.textContent='↩';
-    lbl.textContent='Bỏ đánh dấu';
+    btn.className='tcard-btn tb-undo'; ic.textContent='↩'; txt.textContent='Bỏ đánh dấu';
   } else {
     status.textContent='Hôm nay bạn đã xong chưa?';
-    btn.className='tcard-btn done-btn';
-    icon.textContent='✓';
-    lbl.textContent='Đánh dấu hoàn thành';
+    btn.className='tcard-btn tb-done'; ic.textContent='✓'; txt.textContent='Đánh dấu hoàn thành';
   }
 }
 
@@ -353,17 +353,13 @@ function renderStats(){
   const vs=Object.values(D.days);
   const done=vs.filter(v=>v==='done').length;
   const miss=vs.filter(v=>v==='missed').length;
-
-  // streak liên tiếp tính từ hôm nay ngược lại
   let streak=0;
   const t=getToday();
   for(let i=0;i<730;i++){
     const d=new Date(t); d.setDate(d.getDate()-i);
-    const k=dk(d.getFullYear(),d.getMonth(),d.getDate());
-    if(D.days[k]==='done') streak++;
+    if(D.days[dk(d.getFullYear(),d.getMonth(),d.getDate())]==='done') streak++;
     else break;
   }
-
   document.getElementById('sStreak').textContent=streak;
   document.getElementById('sDone').textContent=done;
   document.getElementById('sMiss').textContent=miss;
@@ -372,13 +368,15 @@ function renderStats(){
 // ── GOAL ──
 function renderGoal(){
   const el=document.getElementById('goalDisplay');
-  el.innerHTML = D.goal ? `<span>${D.goal}</span>` : 'Nhấn để đặt mục tiêu';
+  el.innerHTML=D.goal
+    ? `<b>${D.goal}</b><span class="edit-ic">✎</span>`
+    : '<span>Nhấn để đặt mục tiêu</span>';
 }
 
 // ── ACTIONS ──
 function toggleToday(){
   const k=todayKey();
-  D.days[k] = D.days[k]==='done' ? 'missed' : 'done';
+  D.days[k]=D.days[k]==='done'?'missed':'done';
   save(); renderAll();
 }
 
@@ -387,7 +385,6 @@ function prevMonth(){
   renderCal();
 }
 function nextMonth(){
-  // không cho xem tháng tương lai
   const now=new Date();
   if(vy===now.getFullYear()&&vm===now.getMonth()) return;
   if(vm===11){vm=0;vy++}else vm++;
@@ -398,68 +395,106 @@ function goToday(){
   renderCal();
 }
 
-// ── POPUP chỉnh ngày cũ ──
-function openPopup(y, m, d){
-  popupKey = dk(y, m, d);
-  const cur = D.days[popupKey];
-
-  const dateStr = `${DN[new Date(y,m,d).getDay()]}, ${d} ${MNS[m]} ${y}`;
-  document.getElementById('popupDate').textContent = dateStr;
-
-  const title = cur==='done'
-    ? 'Ngày này đang là ✓ hoàn thành'
-    : cur==='missed'
-    ? 'Ngày này đang là ✗ bỏ lỡ'
-    : 'Ngày này chưa có trạng thái';
-  document.getElementById('popupTitle').textContent = title;
-
-  document.getElementById('popupOverlay').style.display='flex';
+// ── POPUP ──
+function openPop(y,m,d){
+  popKey=dk(y,m,d);
+  const st=D.days[popKey];
+  const dateStr=`${WD[new Date(y,m,d).getDay()]}, ${d} ${MS[m]} ${y}`;
+  document.getElementById('popDate').textContent=dateStr;
+  document.getElementById('popCur').textContent=
+    st==='done'?'Đang là ✓ Hoàn thành':
+    st==='missed'?'Đang là ✗ Bỏ lỡ':'Chưa có trạng thái';
+  document.getElementById('popWrap').style.display='flex';
 }
-
-function setDay(status){
-  if(!popupKey) return;
-  D.days[popupKey] = status;
-  save();
-  document.getElementById('popupOverlay').style.display='none';
-  popupKey = null;
-  renderAll();
+function setDay(st){
+  if(!popKey) return;
+  D.days[popKey]=st; save();
+  document.getElementById('popWrap').style.display='none';
+  popKey=null; renderAll();
 }
-
-function closePopup(e){
-  if(!e || e.target===document.getElementById('popupOverlay')){
-    document.getElementById('popupOverlay').style.display='none';
-    popupKey=null;
+function closePop(e){
+  if(!e||e.target===document.getElementById('popWrap')){
+    document.getElementById('popWrap').style.display='none';
+    popKey=null;
   }
 }
 
 // ── SETUP ──
 function openSetup(){
-  document.getElementById('gInput').value=D.goal||'';
-  document.getElementById('setupOverlay').style.display='flex';
-  setTimeout(()=>document.getElementById('gInput').focus(),150);
+  document.getElementById('gInp').value=D.goal||'';
+  document.getElementById('shWrap').style.display='flex';
+  setTimeout(()=>document.getElementById('gInp').focus(),150);
 }
 function saveGoal(){
-  const v=document.getElementById('gInput').value.trim();
+  const v=document.getElementById('gInp').value.trim();
   if(!v) return;
-  // nếu chưa có startDate (lần đầu đặt mục tiêu)
-  if(!D.startDate) D.startDate = todayKey();
+  if(!D.startDate) D.startDate=todayKey();
   D.goal=v; save();
-  document.getElementById('setupOverlay').style.display='none';
+  document.getElementById('shWrap').style.display='none';
   renderAll();
 }
-function overlayTap(e){
-  if(e.target===document.getElementById('setupOverlay'))
-    document.getElementById('setupOverlay').style.display='none';
+function shTap(e){
+  if(e.target===document.getElementById('shWrap'))
+    document.getElementById('shWrap').style.display='none';
+}
+
+// ── RENDER ALL ──
+function renderAll(){ renderCal(); renderCard(); renderStats(); renderGoal(); }
+
+// ── SERVICE WORKER (tự cập nhật) ──
+if('serviceWorker' in navigator){
+  const SW=`
+const V='mt-v4';
+const ASSETS=['/draft/'];
+self.addEventListener('install',e=>{
+  e.waitUntil(caches.open(V).then(c=>c.addAll(ASSETS)));
+  self.skipWaiting();
+});
+self.addEventListener('activate',e=>{
+  e.waitUntil(
+    caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k))))
+  );
+  self.clients.claim();
+});
+self.addEventListener('fetch',e=>{
+  e.respondWith(
+    fetch(e.request).then(r=>{
+      const rc=r.clone();
+      caches.open(V).then(c=>c.put(e.request,rc));
+      return r;
+    }).catch(()=>caches.match(e.request))
+  );
+});
+`;
+  const blob=new Blob([SW],{type:'application/javascript'});
+  const url=URL.createObjectURL(blob);
+  navigator.serviceWorker.register(url).then(reg=>{
+    reg.addEventListener('updatefound',()=>{
+      const nw=reg.installing;
+      nw.addEventListener('statechange',()=>{
+        if(nw.state==='installed'&&navigator.serviceWorker.controller){
+          showUpdateBar();
+        }
+      });
+    });
+  });
+  // Kiểm tra update mỗi lần mở app
+  navigator.serviceWorker.ready.then(reg=>reg.update());
+}
+
+function showUpdateBar(){
+  if(document.getElementById('upBar')) return;
+  const bar=document.createElement('div');
+  bar.id='upBar'; bar.className='update-bar';
+  bar.innerHTML='App có phiên bản mới! <button onclick="location.reload()">Cập nhật</button>';
+  document.body.prepend(bar);
 }
 
 // ── INIT ──
-function renderAll(){ renderCal(); renderCard(); renderStats(); renderGoal(); }
-
-// set startDate nếu chưa có
-if(!D.startDate) D.startDate = todayKey();
+if(!D.startDate) D.startDate=todayKey();
 autoMiss();
 renderAll();
-if(!D.goal) setTimeout(openSetup, 400);
+if(!D.goal) setTimeout(openSetup,400);
 </script>
 </body>
 </html>
