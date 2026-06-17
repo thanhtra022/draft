@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Mục tiêu">
+<meta name="theme-color" content="#0a0a0a">
+<title>Mục tiêu</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0a0a0a;--s1:#141414;--s2:#1e1e1e;--s3:#282828;
+  --b1:#2a2a2a;--b2:#383838;
+  --t1:#f5f5f5;--t2:#888;--t3:#444;
+  --green:#30d158;--green-dim:rgba(48,209,88,.13);
+  --red:#ff453a;--red-dim:rgba(255,69,58,.09);
+  --blue:#0a84ff;--blue-dim:rgba(10,132,255,.13);
+  --r:14px;--rs:10px;
+}
+html{background:var(--bg)}
+body{
+  background:var(--bg);color:var(--t1);
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;
+  min-height:100svh;max-width:390px;margin:0 auto;
+  padding-bottom:48px;-webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.hd{padding:60px 20px 14px;position:sticky;top:0;background:var(--bg);z-index:20}
+.hd-row{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4px}
+.hd-title{font-size:32px;font-weight:700;letter-spacing:-.8px;line-height:1}
+.hd-today{background:var(--s2);border:none;color:var(--t2);font-size:12px;font-family:inherit;padding:6px 13px;border-radius:20px;cursor:pointer}
+.hd-goal{font-size:13px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer}
+.hd-goal span{color:var(--t1);font-weight:500}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 20px 0}
+.stat{background:var(--s1);border-radius:var(--r);padding:14px 12px;text-align:center}
+.stat-n{font-size:26px;font-weight:700;line-height:1;letter-spacing:-.5px}
+.stat-l{font-size:11px;color:var(--t2);margin-top:4px}
+.c-amber{color:#ffd60a}.c-green{color:var(--green)}.c-red{color:var(--red)}
+
+/* MONTH NAV */
+.mnav{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 10px}
+.mnav-label{font-size:16px;font-weight:600;letter-spacing:-.2px}
+.mnav-btns{display:flex;gap:6px}
+.mnav-btn{background:var(--s2);border:none;color:var(--t1);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center}
+
+/* CALENDAR */
+.cal{padding:0 14px}
+.wdays{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:4px}
+.wday{text-align:center;font-size:11px;color:var(--t3);font-weight:500;padding:3px 0}
+.wday:first-child{color:var(--red);opacity:.6}
+.wday:last-child{color:var(--blue);opacity:.6}
+.dgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+
+.dc{
+  aspect-ratio:1;border-radius:var(--rs);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:transform .1s;position:relative;
+}
+.dc:active{transform:scale(.86)}
+.dc.empty{cursor:default;pointer-events:none}
+.dc.future{cursor:default;pointer-events:none}
+
+.dn{font-size:14px;font-weight:500;line-height:1}
+.di{font-size:10px;margin-top:2px;font-weight:600;line-height:1}
+
+.dc.done{background:var(--green-dim)}
+.dc.done .dn{color:var(--green)}
+.dc.done .di{color:var(--green)}
+
+.dc.missed{background:var(--red-dim)}
+.dc.missed .dn{color:var(--red)}
+.dc.missed .di{color:var(--red)}
+
+.dc.future .dn{color:var(--t3)}
+.dc.future .di{color:var(--t3)}
+
+.dc.today{background:var(--blue-dim);box-shadow:0 0 0 1.5px var(--blue)}
+.dc.today .dn{color:var(--blue)}
+.dc.today.done{background:var(--green-dim);box-shadow:0 0 0 1.5px var(--green)}
+.dc.today.done .dn{color:var(--green)}
+.dc.today.missed{background:var(--red-dim);box-shadow:0 0 0 1.5px var(--red)}
+.dc.today.missed .dn{color:var(--red)}
+
+/* TODAY CARD */
+.tcard{margin:16px 20px 0;background:var(--s1);border-radius:18px;overflow:hidden}
+.tcard-top{padding:18px 20px 14px;border-bottom:1px solid var(--b1)}
+.tcard-date{font-size:12px;color:var(--t2);margin-bottom:6px;letter-spacing:.2px}
+.tcard-status{font-size:17px;font-weight:600;line-height:1.3}
+.tcard-btn{
+  width:100%;padding:17px 20px;background:none;border:none;
+  font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  transition:background .15s;letter-spacing:-.1px;
+}
+.tcard-btn:active{background:var(--s2)}
+.tcard-btn.done-btn{color:var(--green)}
+.tcard-btn.undo-btn{color:var(--t2)}
+.btn-icon{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.done-btn .btn-icon{background:var(--green-dim);color:var(--green)}
+.undo-btn .btn-icon{background:var(--s3);color:var(--t2)}
+
+/* HINT */
+.hint{text-align:center;font-size:11px;color:var(--t3);margin-top:10px;padding:0 20px}
+
+/* LEGEND */
+.footer{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:14px;padding:0 20px}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--t3)}
+.ldot{width:7px;height:7px;border-radius:50%}
+
+/* POPUP (ngày cũ) */
+.popup-overlay{
+  position:fixed;inset:0;z-index:50;
+  background:rgba(0,0,0,.55);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.popup{
+  background:var(--s1);border-radius:20px;
+  padding:24px 20px;width:calc(100% - 48px);max-width:320px;
+  animation:popIn .18s ease;
+}
+@keyframes popIn{0%{transform:scale(.92);opacity:0}100%{transform:scale(1);opacity:1}}
+.popup-date{font-size:13px;color:var(--t2);margin-bottom:6px}
+.popup-title{font-size:18px;font-weight:700;margin-bottom:20px;letter-spacing:-.3px}
+.popup-btns{display:flex;flex-direction:column;gap:8px}
+.popup-btn{
+  width:100%;padding:14px;border:none;border-radius:var(--rs);
+  font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;
+  transition:opacity .15s;
+}
+.popup-btn:active{opacity:.8}
+.popup-btn.p-done{background:var(--green-dim);color:var(--green)}
+.popup-btn.p-missed{background:var(--red-dim);color:var(--red)}
+.popup-btn.p-cancel{background:var(--s3);color:var(--t2);margin-top:4px}
+
+/* SETUP SHEET */
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.sheet{background:var(--s1);width:100%;border-radius:24px 24px 0 0;padding:0 20px 52px;animation:slideUp .22s ease}
+@keyframes slideUp{0%{transform:translateY(100%)}100%{transform:translateY(0)}}
+.sheet-handle{width:32px;height:4px;background:var(--b2);border-radius:2px;margin:12px auto 24px}
+.sheet-title{font-size:22px;font-weight:700;letter-spacing:-.4px;margin-bottom:6px}
+.sheet-sub{font-size:14px;color:var(--t2);margin-bottom:22px;line-height:1.5}
+.sheet-input{
+  width:100%;background:var(--s2);border:1.5px solid var(--b2);color:var(--t1);
+  font-size:16px;padding:15px 16px;border-radius:var(--rs);font-family:inherit;
+  outline:none;margin-bottom:14px;transition:border-color .15s;
+}
+.sheet-input::placeholder{color:var(--t3)}
+.sheet-input:focus{border-color:var(--blue)}
+.sheet-save{width:100%;padding:17px;background:var(--blue);color:#fff;border:none;border-radius:var(--rs);font-size:16px;font-weight:600;font-family:inherit;cursor:pointer}
+.sheet-save:active{opacity:.85}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="hd-row">
+    <div class="hd-title">Lịch</div>
+    <button class="hd-today" onclick="goToday()">Hôm nay</button>
+  </div>
+  <div class="hd-goal" id="goalDisplay" onclick="openSetup()">Nhấn để đặt mục tiêu</div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n c-amber" id="sStreak">0</div><div class="stat-l">🔥 Chuỗi ngày</div></div>
+  <div class="stat"><div class="stat-n c-green" id="sDone">0</div><div class="stat-l">Hoàn thành</div></div>
+  <div class="stat"><div class="stat-n c-red" id="sMiss">0</div><div class="stat-l">Bỏ lỡ</div></div>
+</div>
+
+<div class="mnav">
+  <span class="mnav-label" id="mLabel"></span>
+  <div class="mnav-btns">
+    <button class="mnav-btn" onclick="prevMonth()">‹</button>
+    <button class="mnav-btn" onclick="nextMonth()">›</button>
+  </div>
+</div>
+
+<div class="cal">
+  <div class="wdays">
+    <div class="wday">CN</div><div class="wday">T2</div><div class="wday">T3</div>
+    <div class="wday">T4</div><div class="wday">T5</div><div class="wday">T6</div>
+    <div class="wday">T7</div>
+  </div>
+  <div class="dgrid" id="dgrid"></div>
+</div>
+
+<div class="hint">Nhấn vào ngày bất kỳ để chỉnh ✓ / ✗</div>
+
+<div class="footer">
+  <div class="legend-item"><div class="ldot" style="background:var(--green)"></div>Hoàn thành</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--red)"></div>Bỏ lỡ</div>
+  <div class="legend-item"><div class="ldot" style="background:var(--blue);box-shadow:0 0 0 1px var(--blue)"></div>Hôm nay</div>
+</div>
+
+<div class="tcard">
+  <div class="tcard-top">
+    <div class="tcard-date" id="tDate"></div>
+    <div class="tcard-status" id="tStatus"></div>
+  </div>
+  <button class="tcard-btn done-btn" id="tBtn" onclick="toggleToday()">
+    <div class="btn-icon">✓</div>
+    <span id="tBtnLabel">Đánh dấu hoàn thành</span>
+  </button>
+</div>
+
+<!-- POPUP chỉnh ngày cũ -->
+<div class="popup-overlay" id="popupOverlay" style="display:none" onclick="closePopup(event)">
+  <div class="popup">
+    <div class="popup-date" id="popupDate"></div>
+    <div class="popup-title" id="popupTitle">Ngày này thế nào?</div>
+    <div class="popup-btns">
+      <button class="popup-btn p-done" onclick="setDay('done')">✓ Hoàn thành</button>
+      <button class="popup-btn p-missed" onclick="setDay('missed')">✗ Bỏ lỡ</button>
+      <button class="popup-btn p-cancel" onclick="closePopup()">Huỷ</button>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP SHEET -->
+<div class="overlay" id="setupOverlay" style="display:none" onclick="overlayTap(event)">
+  <div class="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">Mục tiêu của bạn</div>
+    <div class="sheet-sub">Bạn muốn theo dõi điều gì mỗi ngày?</div>
+    <input class="sheet-input" id="gInput" type="text" placeholder="Ví dụ: Tập thể dục 30 phút" maxlength="60" onkeydown="if(event.key==='Enter')saveGoal()">
+    <button class="sheet-save" onclick="saveGoal()">Lưu mục tiêu</button>
+  </div>
+</div>
+
+<script>
+// ── HELPERS ──
+const pad = n => String(n).padStart(2,'0');
+const dk = (y,m,d) => `${y}-${pad(m+1)}-${pad(d)}`;
+const todayKey = () => { const n=new Date(); return dk(n.getFullYear(),n.getMonth(),n.getDate()); };
+
+function getToday(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
+function isPast(y,m,d){ return new Date(y,m,d) < getToday(); }
+function isToday(y,m,d){ const t=new Date(); return t.getFullYear()===y&&t.getMonth()===m&&t.getDate()===d; }
+function isFuture(y,m,d){ return new Date(y,m,d) > getToday(); }
+
+// ── DATA ──
+let D = JSON.parse(localStorage.getItem('gd3')||'{}');
+if(!D.days) D.days={};
+if(!D.goal) D.goal='';
+if(!D.startDate) D.startDate = todayKey(); // track when user started
+
+let vy=new Date().getFullYear(), vm=new Date().getMonth();
+let popupKey = null; // key đang chọn trong popup
+
+function save(){ localStorage.setItem('gd3',JSON.stringify(D)); }
+
+// ── AUTO-MISS: chỉ từ ngày bắt đầu ──
+function autoMiss(){
+  const t = getToday();
+  const start = D.startDate ? new Date(D.startDate) : t;
+  start.setHours(0,0,0,0);
+
+  for(let i=1; i<=730; i++){
+    const d = new Date(t); d.setDate(d.getDate()-i);
+    if(d < start) break; // không đánh dấu trước ngày bắt đầu
+    const k = dk(d.getFullYear(), d.getMonth(), d.getDate());
+    if(!D.days[k]) D.days[k]='missed';
+  }
+  save();
+}
+
+// ── CALENDAR ──
+const MN=['Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6',
+          'Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'];
+const DN=['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+const MNS=['tháng 1','tháng 2','tháng 3','tháng 4','tháng 5','tháng 6',
+           'tháng 7','tháng 8','tháng 9','tháng 10','tháng 11','tháng 12'];
+
+function renderCal(){
+  document.getElementById('mLabel').textContent=`${MN[vm]} ${vy}`;
+  const g=document.getElementById('dgrid');
+  g.innerHTML='';
+  const first=new Date(vy,vm,1).getDay();
+  const dim=new Date(vy,vm+1,0).getDate();
+  const start = D.startDate ? new Date(D.startDate) : getToday();
+  start.setHours(0,0,0,0);
+
+  for(let i=0;i<first;i++){
+    const e=document.createElement('div'); e.className='dc empty'; g.appendChild(e);
+  }
+
+  for(let d=1;d<=dim;d++){
+    const c=document.createElement('div'); c.className='dc';
+    const k=dk(vy,vm,d);
+    const st=D.days[k];
+    const tod=isToday(vy,vm,d);
+    const past=isPast(vy,vm,d);
+    const future=isFuture(vy,vm,d);
+    const beforeStart = new Date(vy,vm,d) < start;
+
+    if(tod) c.classList.add('today');
+    if(st==='done') c.classList.add('done');
+    else if(st==='missed') c.classList.add('missed');
+    if(future||beforeStart) c.classList.add('future');
+
+    const dn=document.createElement('div'); dn.className='dn'; dn.textContent=d;
+    const di=document.createElement('div'); di.className='di';
+    if(st==='done') di.textContent='✓';
+    else if(st==='missed') di.textContent='✗';
+    else if(future||beforeStart) di.textContent='';
+    else if(tod) di.textContent='';
+
+    c.appendChild(dn); c.appendChild(di);
+
+    // click logic
+    if(tod){
+      c.onclick = toggleToday;
+    } else if(past && !beforeStart){
+      c.onclick = () => openPopup(vy, vm, d);
+    }
+
+    g.appendChild(c);
+  }
+}
+
+// ── TODAY CARD ──
+function renderCard(){
+  const n=new Date();
+  document.getElementById('tDate').textContent=
+    `${DN[n.getDay()]}, ${n.getDate()} ${MNS[n.getMonth()]} ${n.getFullYear()}`;
+
+  const st=D.days[todayKey()];
+  const btn=document.getElementById('tBtn');
+  const lbl=document.getElementById('tBtnLabel');
+  const icon=btn.querySelector('.btn-icon');
+  const status=document.getElementById('tStatus');
+
+  if(st==='done'){
+    status.textContent='✅ Hôm nay đã hoàn thành!';
+    btn.className='tcard-btn undo-btn';
+    icon.textContent='↩';
+    lbl.textContent='Bỏ đánh dấu';
+  } else {
+    status.textContent='Hôm nay bạn đã xong chưa?';
+    btn.className='tcard-btn done-btn';
+    icon.textContent='✓';
+    lbl.textContent='Đánh dấu hoàn thành';
+  }
+}
+
+// ── STATS ──
+function renderStats(){
+  const vs=Object.values(D.days);
+  const done=vs.filter(v=>v==='done').length;
+  const miss=vs.filter(v=>v==='missed').length;
+
+  // streak liên tiếp tính từ hôm nay ngược lại
+  let streak=0;
+  const t=getToday();
+  for(let i=0;i<730;i++){
+    const d=new Date(t); d.setDate(d.getDate()-i);
+    const k=dk(d.getFullYear(),d.getMonth(),d.getDate());
+    if(D.days[k]==='done') streak++;
+    else break;
+  }
+
+  document.getElementById('sStreak').textContent=streak;
+  document.getElementById('sDone').textContent=done;
+  document.getElementById('sMiss').textContent=miss;
+}
+
+// ── GOAL ──
+function renderGoal(){
+  const el=document.getElementById('goalDisplay');
+  el.innerHTML = D.goal ? `<span>${D.goal}</span>` : 'Nhấn để đặt mục tiêu';
+}
+
+// ── ACTIONS ──
+function toggleToday(){
+  const k=todayKey();
+  D.days[k] = D.days[k]==='done' ? 'missed' : 'done';
+  save(); renderAll();
+}
+
+function prevMonth(){
+  if(vm===0){vm=11;vy--}else vm--;
+  renderCal();
+}
+function nextMonth(){
+  // không cho xem tháng tương lai
+  const now=new Date();
+  if(vy===now.getFullYear()&&vm===now.getMonth()) return;
+  if(vm===11){vm=0;vy++}else vm++;
+  renderCal();
+}
+function goToday(){
+  vy=new Date().getFullYear(); vm=new Date().getMonth();
+  renderCal();
+}
+
+// ── POPUP chỉnh ngày cũ ──
+function openPopup(y, m, d){
+  popupKey = dk(y, m, d);
+  const cur = D.days[popupKey];
+
+  const dateStr = `${DN[new Date(y,m,d).getDay()]}, ${d} ${MNS[m]} ${y}`;
+  document.getElementById('popupDate').textContent = dateStr;
+
+  const title = cur==='done'
+    ? 'Ngày này đang là ✓ hoàn thành'
+    : cur==='missed'
+    ? 'Ngày này đang là ✗ bỏ lỡ'
+    : 'Ngày này chưa có trạng thái';
+  document.getElementById('popupTitle').textContent = title;
+
+  document.getElementById('popupOverlay').style.display='flex';
+}
+
+function setDay(status){
+  if(!popupKey) return;
+  D.days[popupKey] = status;
+  save();
+  document.getElementById('popupOverlay').style.display='none';
+  popupKey = null;
+  renderAll();
+}
+
+function closePopup(e){
+  if(!e || e.target===document.getElementById('popupOverlay')){
+    document.getElementById('popupOverlay').style.display='none';
+    popupKey=null;
+  }
+}
+
+// ── SETUP ──
+function openSetup(){
+  document.getElementById('gInput').value=D.goal||'';
+  document.getElementById('setupOverlay').style.display='flex';
+  setTimeout(()=>document.getElementById('gInput').focus(),150);
+}
+function saveGoal(){
+  const v=document.getElementById('gInput').value.trim();
+  if(!v) return;
+  // nếu chưa có startDate (lần đầu đặt mục tiêu)
+  if(!D.startDate) D.startDate = todayKey();
+  D.goal=v; save();
+  document.getElementById('setupOverlay').style.display='none';
+  renderAll();
+}
+function overlayTap(e){
+  if(e.target===document.getElementById('setupOverlay'))
+    document.getElementById('setupOverlay').style.display='none';
+}
+
+// ── INIT ──
+function renderAll(){ renderCal(); renderCard(); renderStats(); renderGoal(); }
+
+// set startDate nếu chưa có
+if(!D.startDate) D.startDate = todayKey();
+autoMiss();
+renderAll();
+if(!D.goal) setTimeout(openSetup, 400);
+</script>
+</body>
+</html>
